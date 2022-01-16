@@ -3,12 +3,52 @@
 /* ------------------- */
 
 :root {
+    /* ------ */
+    /* Colors */
+    /* ------ */
+
     /* Declares the properties as just the hsl values (as opposed to doing for example */
     /* --clr-dark: hsl(230 35% 7%) directly) because apparently this way it's easier */
     /* to later modify the a value.*/
     --clr-dark: 230 35% 7%;
     --clr-light: 231 77% 90%;
     --clr-white: 0 0% 100%;
+    
+    /* ---------- */
+    /* font-sizes */
+    /* ---------- */
+
+    /* The syntax is the same as in the font-weight system. 100 through 900 indicate increasing levels of */
+    /* weights (or in this case, sizes), with 400 being the normal value (the one used for generic/body text). */
+    
+    /* The figma design gives font sizes in pixels, but for accessibility reasons we'll use rems (for example */
+    /* if the user has set up the browser to show a bigger font to see better, pixel sizes can potentially */
+    /* override those settings while rems will take that into account). */
+    /* Here our normal font-size is 18px, as the default size for the html element is 16px, the value in rems */
+    /* will be (18/16)rem = 1.125rem. */
+    
+    /* it's better to use rems. */
+    --fs-900: 9.375rem;
+    --fs-800: 6.25rem;
+    --fs-700: 3.5rem;
+    --fs-600: 2rem;
+    --fs-500: 1.75rem;
+    --fs-400: 1.125rem;
+    --fs-300: 1rem;
+    --fs-200: 0.875rem;
+    
+    /* ------------- */
+    /* font-families */
+    /* ------------- */
+
+    /* Read https://www.masterclass.com/articles/font-family-guide#the-types-of-font-families for a explanation on font families. */
+
+    --ff-serif: "Bellefair", serif;
+    --ff-sans-cond: "Barlow Condensed", sans-serif;
+    --ff-sans-normal: "Barlow", sans-serif;
+
+    /* Note: character spacings could also be a good candidate for setting as custom properties, but that's not something that usually */
+    /* changes so it's also fine to just add them as regular values. */
 }
 
 /* ================ */
@@ -35,6 +75,17 @@ picture {
     margin: 0;
 }
 
+/* In order to remove the default boldness of headings (it's not necessary for paragraphs but it's also not bad so...) */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+    font-weight: 400;
+}
+
 /* Core body setup. */
 body {
     /* Make the body heigth match the viewport size (window size) */
@@ -43,6 +94,17 @@ body {
     text-rendering: optimizeSpeed;
     /* Default is 1.2 and it's too low. */
     line-height: 1.5;
+
+    /* I can do f-f+tab then ffn+tab to do it super fastu */
+    font-family: var(--ff-sans-normal);
+    /* Here fz+tab and fs4+tab do the trick */
+    font-size: var(--fs-400);
+
+    /* bg-c+tab and hvcd+tab */
+    background-color: hsl(var(--clr-dark));
+    /* c+tab+esc (the ones that have a value autocompleted by emmet need an esc for the following autocomplete) */
+    /* and hvcw+tab */
+    color: hsl(var(--clr-white));
 }
 
 /* make images easier to work with. */
@@ -140,6 +202,38 @@ that may have a clear purpose visually but wouldn't say much when read with a sc
 .bg-dark { background-color: hsl(var(--clr-dark)); }
 .bg-light { background-color: hsl(var(--clr-light)); }
 .bg-white { background-color: hsl(var(--clr-white)); }
+
 .txt-dark { color: hsl(var(--clr-dark)); }
 .txt-light { color: hsl(var(--clr-light)); }
 .txt-white { color: hsl(var(--clr-white)); }
+
+/* typography */
+
+.ff-serif { font-family: var(--ff-serif); } 
+.ff-sans-cond { font-family: var(--ff-sans-cond); } 
+.ff-sans-normal { font-family: var(--ff-sans-normal); } 
+
+/* Not sure why Kevin doesn't use rems here */
+.letter-spacing-1 { letter-spacing: 4.75px; } 
+.letter-spacing-2 { letter-spacing: 2.7px; } 
+.letter-spacing-3 { letter-spacing: 2.35px; } 
+
+/* Headings all seem to be written in full uppercase so this can be used to make sure text is uppercase */
+/* no matter how we write it. */
+.uppercase { text-transform: uppercase; }
+
+.fs-900 { font-size: var(--fs-900); }
+.fs-800 { font-size: var(--fs-800); }
+.fs-700 { font-size: var(--fs-700); }
+.fs-600 { font-size: var(--fs-600); }
+.fs-500 { font-size: var(--fs-500); }
+.fs-400 { font-size: var(--fs-400); }
+.fs-300 { font-size: var(--fs-300); }
+.fs-200 { font-size: var(--fs-200); }
+
+.fs-900,
+.fs-800,
+.fs-700,
+.fs-600 {
+    line-height: 1.1;
+}
