@@ -1,0 +1,145 @@
+/* ------------------- */
+/* Custom properties   */
+/* ------------------- */
+
+:root {
+    /* Declares the properties as just the hsl values (as opposed to doing for example */
+    /* --clr-dark: hsl(230 35% 7%) directly) because apparently this way it's easier */
+    /* to later modify the a value.*/
+    --clr-dark: 230 35% 7%;
+    --clr-light: 231 77% 90%;
+    --clr-white: 0 0% 100%;
+}
+
+/* ================ */
+/* RESET            */
+/* ================ */
+
+/* https://piccalil.li/blog/a-modern-css-reset/ */
+
+/* Box sizing rules. */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Reset margins. */
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+figure,
+picture {
+    margin: 0;
+}
+
+/* Core body setup. */
+body {
+    /* Make the body heigth match the viewport size (window size) */
+    min-height: 100vh;
+    /* This basically makes the site load faster (not sure what the drawbacks are tho)*/
+    text-rendering: optimizeSpeed;
+    /* Default is 1.2 and it's too low. */
+    line-height: 1.5;
+}
+
+/* make images easier to work with. */
+img,
+picture {
+    /* Makes it so images get smaller when the viewport gets smaller than the original width. */
+    max-width: 100%;
+    /* By default images are of display type inline-block, this adds a little spacing on the
+       bottom of the image that is annoying. */
+    display: block;
+}
+
+/* Most elements inherit font properties, which is convenient, but form elements don't. This
+   makes form elements easier to work with. */
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+/* Remove animations for people who've turned them off. It's mostly to increase accessibility of the site. */
+/* (this is a browser/os setting, not an in-site one) */
+/* They are tagged as !important so this settings will prevail no matter what other settings we have. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ------------------- */
+/* Utility classes     */
+/* ------------------- */
+
+.flex {
+    display: flex;
+    gap: var(--gap, 1rem);
+}
+
+.grid {
+    display: grid;
+    gap: var(--gap, 1rem);
+}
+
+.container {
+    /* -inline only takes into account the values in the writing-mode direction. */
+    padding-inline: 2em; /* same as padding: 0 2em; if writing-mode is horizontal. */
+    margin-inline: auto; /* same as margin: 0 2em; if writing-mode is horizontal. */
+    max-width: 80rem; /* could be set with a custom property (the var() thingy) but 
+                         it's not necessary if we want the same width for all pages. */
+}
+
+/* Screen reader only. For accessibility. It's meant to add extra information to certain elements
+that may have a clear purpose visually but wouldn't say much when read with a screen reader. */
+.sr-only {
+    /* clipping can only be used with absolute positioning */
+    position: absolute;
+    
+    /* Not sure why width and height are 1px instead of 0 */
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    
+    /* Also not sure why the negative margin. I think it makes the element stick more to the corner */
+    /* but don't know why that matters if the element has basically no dimensions */
+    margin: -1px;
+
+    /* The overflow property specifies whether to clip the content or to add scrollbars when */
+    /* the content of an element is too big to fit in the specified area. */
+    /* hidden - The overflow is clipped, and the rest of the content will be invisible */
+    overflow: hidden;
+
+    /* Make the visible area of the element be a circle of radius 0. */
+    /* (aka make the element invisible) */
+    /* Clipping to a 0 area shape has the same effect as using visibility: hidden */
+    /* however, visibility:hidden also hides the element from screen readers. */
+    /* display:none is similar to visibility:hidden but this declaration doesn't maintain the */
+    /* area of the element in place. */
+    clip-path: circle(0);
+
+    /* The white-space property sets how white space inside an element is handled. */
+    /* nowrap - Collapses white space as for normal, but suppresses line breaks */
+    /* (text wrapping) within the source. */
+    white-space: nowrap;
+    border: 0;
+  }
+
+/* colors */
+
+.bg-dark { background-color: hsl(var(--clr-dark)); }
+.bg-light { background-color: hsl(var(--clr-light)); }
+.bg-white { background-color: hsl(var(--clr-white)); }
+.txt-dark { color: hsl(var(--clr-dark)); }
+.txt-light { color: hsl(var(--clr-light)); }
+.txt-white { color: hsl(var(--clr-white)); }
