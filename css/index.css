@@ -199,6 +199,21 @@ They are tagged as !important so this settings will prevail no matter what other
     gap: var(--gap, 1rem);
 }
 
+/* .flow > * + * selects any element that is the adjacent sibling (meaning that it comes directly after) of 
+   any other element, when those elements are the children of an element of class flow.
+   
+   It could also be done using the selector .flow > *:not(:first-child), which selects any element that is 
+   not the first child. However, the :first-child pseudo-class adds specificity, which we don't really want
+   (the .flow selector already adds the specificity we need) because it may make it more difficult to override
+   the settings via another class.
+   Note: the :not() pseudo-class doesn't add specificity of its own.
+   
+   To solve the specificity problem of the above selector we can use the :where() pseudo-class, which takes a 
+   selector list as its argument, and selects any element that can be selected by one of the selectors in that list.
+   The advantage of :where() is that it always has 0 specificity regardless of the selectors in its argument list.
+   So the selector would end up being .flow > *:where(:not(:first-child)).
+   The only advantage of this selector over * + * is its readability, but if you actually know your selectors and
+   combinators then there should be no problem. */
 .flow > * + * {
     /* outline: 1px solid red; */
     margin-top: var(--flow-space, 1rem);
@@ -302,3 +317,58 @@ no matter how we write it. */
 .fs-600, h4 {
     line-height: 1.1;
 }
+
+/* ------------------- */
+/* Components         */
+/* ------------------- */
+
+/* My hacky, ignorant method. */
+/* .large-button {
+    display: inline-block;
+    text-align: center;
+    --size: calc(100% + 2em*2);
+    width: var(--size);
+    padding-top: calc(var(--size)/2 - 0.5em);
+    padding-bottom: calc(var(--size)/2 + 0.5em);
+    height: 0;
+    border-radius: 50%;
+
+    Just to check that the text was centered vertically.
+    background: linear-gradient(to bottom, blue, blue 49.9%, red 50.1%, red 100%);
+} */
+
+
+/* Kevin's chad, educated method. */
+.large-button {
+    position: relative;
+    /* display: gird allows us to use place-items: center. Flex also works, not sure if it changes anything in this case. */
+    display: grid;
+    place-items: center;
+    padding: 0 2em;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    /* Removes the underline. */
+    text-decoration: none;
+}
+
+/* ::after is a pseudo-element that gets appended right after the element that's being selected. In this it will get appended to
+   elements of class large-button that are being hovered over. */
+.large-button:hover::after {
+    position: absolute;
+    content: attr(data-text);
+    aspect-ratio: 1;
+    z-index: -1;
+    display: grid;
+    place-items: center;
+    background-color: hsl(var(--clr-white)/.2);
+    padding: 0 4.7em;
+    border-radius: 50%;
+}
+
+/* Doesn't work, pseudo-elements don't have pseudo-classes. Even if it worked this would only activate if the pseudo-element is being
+   hovered over, which doesn't necessarily have the same size as the actual element. */
+/* .large-button::after:hover {
+    background-color: red;
+    padding: 0 4.7em;
+    border-radius: 50%;
+} */
