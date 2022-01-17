@@ -180,6 +180,12 @@ They are tagged as !important so this settings will prevail no matter what other
     --gap: 4rem;
 }
 
+.column {
+    /* flex-basis: 100% makes the columns have the same width. For why this is see https://youtu.be/u044iM9xsWU?t=892 */
+    flex-basis: 100%; /* would be the same as flex: 0 1 100% or flex: 1 1 0 or flex: 1 */
+    --flow-space: 2rem;
+}
+
 .container {
     /* -inline only takes into account the values in the writing-mode direction. */
     padding-inline: 2em; /* same as padding: 0 2em; if writing-mode is horizontal. */
@@ -195,12 +201,29 @@ They are tagged as !important so this settings will prevail no matter what other
 
 .flow > * + * {
     /* outline: 1px solid red; */
-    margin-top: 2rem;
+    margin-top: var(--flow-space, 1rem);
 }
 
 .grid {
     display: grid;
     gap: var(--gap, 1rem);
+}
+
+.numbered-title {
+    font-family: var(--ff-sans-cond);
+    font-size: var(--fs-500);
+    letter-spacing: 4.75px;
+    text-transform: uppercase;
+}
+
+/* Note: the > (Child combinator) here indicates that only spans that are direct children of an element with
+class numbered-title should be selected. If I used .numbered-title span {...} instead, it would select any
+span that is descendant of an element with class numbered-title, meaning it could be a grandchild, or
+grand-grandchild, etc. (the ' ' (space) combinator is called Descendant combinator). */
+.numbered-title > span {
+    color: hsl(var(--clr-white)/0.25);
+    margin-right: 1em;
+    font-weight: bold;
 }
 
 /* Screen reader only. For accessibility. It's meant to add extra information to certain elements
@@ -278,21 +301,4 @@ no matter how we write it. */
 .fs-700, h3,
 .fs-600, h4 {
     line-height: 1.1;
-}
-
-.numbered-title {
-    font-family: var(--ff-sans-cond);
-    font-size: var(--fs-500);
-    letter-spacing: 4.75px;
-    text-transform: uppercase;
-}
-
-/* Note: the > (Child combinator) here indicates that only spans that are direct children of an element with
-class numbered-title should be selected. If I used .numbered-title span {...} instead, it would select any
-span that is descendant of an element with class numbered-title, meaning it could be a grandchild, or
-grand-grandchild, etc. (the ' ' (space) combinator is called Descendant combinator). */
-.numbered-title > span {
-    color: hsl(var(--clr-white)/0.25);
-    margin-right: 1em;
-    font-weight: bold;
 }
