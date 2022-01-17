@@ -7,9 +7,9 @@
     /* Colors */
     /* ------ */
 
-    /* Declares the properties as just the hsl values (as opposed to doing for example */
-    /* --clr-dark: hsl(230 35% 7%) directly) because apparently this way it's easier */
-    /* to later modify the a value.*/
+    /* Declares the properties as just the hsl values (as opposed to doing for example
+       --clr-dark: hsl(230 35% 7%) directly) because apparently this way it's easier
+       to later modify the a value.*/
     --clr-dark: 230 35% 7%;
     --clr-light: 231 77% 90%;
     --clr-white: 0 0% 100%;
@@ -18,14 +18,14 @@
     /* font-sizes */
     /* ---------- */
 
-    /* The syntax is the same as in the font-weight system. 100 through 900 indicate increasing levels of */
-    /* weights (or in this case, sizes), with 400 being the normal value (the one used for generic/body text). */
+    /* The syntax is the same as in the font-weight system. 100 through 900 indicate increasing levels of
+       weights (or in this case, sizes), with 400 being the normal value (the one used for generic/body text). */
     
-    /* The figma design gives font sizes in pixels, but for accessibility reasons we'll use rems (for example */
-    /* if the user has set up the browser to show a bigger font to see better, pixel sizes can potentially */
-    /* override those settings while rems will take that into account). */
-    /* Here our normal font-size is 18px, as the default size for the html element is 16px, the value in rems */
-    /* will be (18/16)rem = 1.125rem. */
+    /* The figma design gives font sizes in pixels, but for accessibility reasons we'll use rems (for example
+       if the user has set up the browser to show a bigger font to see better, pixel sizes can potentially
+       override those settings while rems will take that into account).
+       Here our normal font-size is 18px, as the default size for the html element is 16px, the value in rems
+       will be (18/16)rem = 1.125rem. */
     
     /* it's better to use rems. */
     --fs-900: 9.375rem;
@@ -47,8 +47,8 @@
     --ff-sans-cond: "Barlow Condensed", sans-serif;
     --ff-sans-normal: "Barlow", sans-serif;
 
-    /* Note: character spacings could also be a good candidate for setting as custom properties, but that's not something that usually */
-    /* changes so it's also fine to just add them as regular values. */
+    /* Note: character spacings could also be a good candidate for setting as custom properties, but that's not something that usually
+       changes so it's also fine to just add them as regular values. */
 }
 
 /* ================ */
@@ -119,7 +119,7 @@ h5 {
 
 /* Core body setup. */
 body {
-    /* Make the body heigth match the viewport size (window size) */
+    /* Make the body height match the viewport size (window size) */
     min-height: 100vh;
     /* This basically makes the site load faster (not sure what the drawbacks are tho)*/
     text-rendering: optimizeSpeed;
@@ -133,8 +133,7 @@ body {
 
     /* bg-c+tab and hvcd+tab */
     background-color: hsl(var(--clr-dark));
-    /* c+tab+esc (the ones that have a value autocompleted by emmet need an esc for the following autocomplete) */
-    /* and hvcw+tab */
+    /* c+tab+esc (the ones that have a value autocompleted by emmet need an esc for the following autocomplete) and hvcw+tab */
     color: hsl(var(--clr-white));
 }
 
@@ -157,9 +156,11 @@ select {
     font: inherit;
 }
 
-/* Remove animations for people who've turned them off. It's mostly to increase accessibility of the site. */
-/* (this is a browser/os setting, not an in-site one) */
-/* They are tagged as !important so this settings will prevail no matter what other settings we have. */
+/*
+Remove animations for people who've turned them off. It's mostly to increase accessibility of the site.
+(this is a browser/os setting, not an in-site one)
+They are tagged as !important so this settings will prevail no matter what other settings we have.
+*/
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -175,21 +176,6 @@ select {
 /* Utility classes     */
 /* ------------------- */
 
-.flex {
-    display: flex;
-    gap: var(--gap, 1rem);
-}
-
-.grid {
-    display: grid;
-    gap: var(--gap, 1rem);
-}
-
-.flow > * + * {
-    /* outline: 1px solid red; */
-    margin-top: 2rem;
-}
-
 .clr-info {
     --gap: 4rem;
 }
@@ -200,6 +186,21 @@ select {
     margin-inline: auto; /* same as margin: 0 2em; if writing-mode is horizontal. */
     max-width: 80rem; /* could be set with a custom property (the var() thingy) but 
                          it's not necessary if we want the same width for all pages. */
+}
+
+.flex {
+    display: flex;
+    gap: var(--gap, 1rem);
+}
+
+.flow > * + * {
+    /* outline: 1px solid red; */
+    margin-top: 2rem;
+}
+
+.grid {
+    display: grid;
+    gap: var(--gap, 1rem);
 }
 
 /* Screen reader only. For accessibility. It's meant to add extra information to certain elements
@@ -213,26 +214,27 @@ that may have a clear purpose visually but wouldn't say much when read with a sc
     height: 1px;
     padding: 0;
     
-    /* Also not sure why the negative margin. I think it makes the element stick more to the corner */
-    /* but don't know why that matters if the element has basically no dimensions */
+    /* Also not sure why the negative margin. I think it makes the element stick more to the corner
+    but don't know why that matters if the element has basically no dimensions. */
     margin: -1px;
 
-    /* The overflow property specifies whether to clip the content or to add scrollbars when */
-    /* the content of an element is too big to fit in the specified area. */
-    /* hidden - The overflow is clipped, and the rest of the content will be invisible */
+    /* The overflow property specifies whether to clip the content or to add scrollbars when
+    the content of an element is too big to fit in the specified area.
+    hidden - The overflow is clipped, and the rest of the content will be invisible. */
     overflow: hidden;
 
-    /* Make the visible area of the element be a circle of radius 0. */
-    /* (aka make the element invisible) */
-    /* Clipping to a 0 area shape has the same effect as using visibility: hidden */
-    /* however, visibility:hidden also hides the element from screen readers. */
-    /* display:none is similar to visibility:hidden but this declaration doesn't maintain the */
-    /* area of the element in place. */
+    /* Make the visible area of the element be a circle of radius 0 (aka make the element invisible).
+
+    Clipping to a 0 area shape has the same effect as using visibility: hidden
+    however, visibility:hidden also hides the element from screen readers.
+
+    display:none is similar to visibility:hidden but this declaration doesn't maintain the
+    area of the element in place. */
     clip-path: circle(0);
 
-    /* The white-space property sets how white space inside an element is handled. */
-    /* nowrap - Collapses white space as for normal, but suppresses line breaks */
-    /* (text wrapping) within the source. */
+    /* The white-space property sets how white space inside an element is handled.
+    nowrap - Collapses white space as for normal, but suppresses line breaks
+    (text wrapping) within the source. */
     white-space: nowrap;
     border: 0;
   }
@@ -258,8 +260,8 @@ that may have a clear purpose visually but wouldn't say much when read with a sc
 .letter-spacing-2 { letter-spacing: 2.7px; } 
 .letter-spacing-3 { letter-spacing: 2.35px; } 
 
-/* Headings all seem to be written in full uppercase so this can be used to make sure text is uppercase */
-/* no matter how we write it. */
+/* Headings all seem to be written in full uppercase so this can be used to make sure text is uppercase
+no matter how we write it. */
 .uppercase { text-transform: uppercase; }
 
 .fs-900 { font-size: var(--fs-900); }
@@ -284,10 +286,11 @@ that may have a clear purpose visually but wouldn't say much when read with a sc
     letter-spacing: 4.75px;
     text-transform: uppercase;
 }
-/* Note: the > (Child combinator) here indicates that only spans that are direct children of an element with */
-/* class numbered-title should be selected. If I used .numbered-title span {...} instead, it would select any */
-/* span that is descendant of an element with class numbered-title, meaning it could be a grandchild, or */
-/* grand-grandchild, etc. (the ' ' (space) combinator is called Descendant combinator) */
+
+/* Note: the > (Child combinator) here indicates that only spans that are direct children of an element with
+class numbered-title should be selected. If I used .numbered-title span {...} instead, it would select any
+span that is descendant of an element with class numbered-title, meaning it could be a grandchild, or
+grand-grandchild, etc. (the ' ' (space) combinator is called Descendant combinator). */
 .numbered-title > span {
     color: hsl(var(--clr-white)/0.25);
     margin-right: 1em;
