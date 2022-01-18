@@ -322,25 +322,23 @@ no matter how we write it. */
 /* Components         */
 /* ------------------- */
 
-/* My hacky, ignorant method. */
-/* .large-button {
-    display: inline-block;
-    text-align: center;
-    --size: calc(100% + 2em*2);
-    width: var(--size);
-    padding-top: calc(var(--size)/2 - 0.5em);
-    padding-bottom: calc(var(--size)/2 + 0.5em);
-    height: 0;
-    border-radius: 50%;
-
-    Just to check that the text was centered vertically.
-    background: linear-gradient(to bottom, blue, blue 49.9%, red 50.1%, red 100%);
-} */
-
-
-/* Kevin's chad, educated method. */
 .large-button {
+    /* We need position: relative here because the ::after pseudo-element having absolute positioning
+       is positioned relative to its closest ancestor with a position other than static (the default
+       positioning value), it there is any; otherwise it's placed relative to the root element. So if
+       we omitted the relative positioning here, the size of the ::after element (being 100% of the
+       parent or inset: 0) would be that of the root element (the whole page). */
     position: relative;
+    /* If we omitted the z-index here the button would still work as intended, maybe... Having z-index: on ::after
+       would create a stacking context on that pseudo-element contained within the stacking context of the closest ancestor 
+       with one. But if we omit the z-index here, no stacking context is created for the large-button element and so ::after's
+       would be contained withing the stacking context of the root element's (because we haven't defined a z-index for any
+       of ::after's ancestors). This can cause problems in cases were we have multiple stacking contexts in our site.
+       Adding z-index: 1 here makes ::after's s-c contained within the large-button. And due to the negative index, ::after
+       is bellow the large-button's text (if it's positive, even if smaller than the l-b's it will still be on top op the text
+       stack indexes are kinda weird but it doesn't really matter). But this way ::after's background will always remain on top
+       of l-b's. As we are using white for both this doesn't matter though. */
+    z-index: 1;
     /* display: gird allows us to use place-items: center. Flex also works, not sure if it changes anything in this case. */
     display: grid;
     place-items: center;
@@ -351,24 +349,48 @@ no matter how we write it. */
     text-decoration: none;
 }
 
-/* ::after is a pseudo-element that gets appended right after the element that's being selected. In this it will get appended to
-   elements of class large-button that are being hovered over. */
-.large-button:hover::after {
+/* ::after is a pseudo-element that gets appended as a child to the element that's being selected. */
+.large-button::after {
+    /* If no content value (default to none) is applied to a pseudo-element, the pseudo-element is not generated. */
+    content: '';
+    /* Absolute so it doesn't alter the position of the parent. */
     position: absolute;
-    content: attr(data-text);
-    aspect-ratio: 1;
     z-index: -1;
-    display: grid;
-    place-items: center;
-    background-color: hsl(var(--clr-white)/.2);
-    padding: 0 4.7em;
-    border-radius: 50%;
+    /* Works but I like more using inset: 0 */
+    /* width: 100%;
+    height: 100%; */
+    /* Inset defines the size of the element by how smaller than the parent element it should be. */
+    inset: 0;
+    background: hsl( var(--clr-white) / .15);
+    border-radius: inherit;
+    /* Opacity just for the transition */
+    opacity: 0;
+    
+    /* Hover Off */
+    /* When I hover off the button this is the only active transition on the button so this one takes effect. */
+    /* transition: property duration curve delay;
+       https://cubic-bezier.com/#.46,-1.14,.75,.32 */
+    transition: 
+        opacity 350ms linear,
+        transform 900ms cubic-bezier(.46,-1.14,.75,.32);
 }
 
-/* Doesn't work, pseudo-elements don't have pseudo-classes. Even if it worked this would only activate if the pseudo-element is being
-   hovered over, which doesn't necessarily have the same size as the actual element. */
-/* .large-button::after:hover {
-    background-color: red;
-    padding: 0 4.7em;
-    border-radius: 50%;
-} */
+/* In this it will get appended to elements of class large-button that are being hovered over. */
+.large-button:hover::after,
+.large-button:focus::after {
+    /* We use transform and opacity because these are apparently the only two properties that don't cause 
+       reflows and repaints and are calculated with the GPU, which gives far better optimization when dealing
+       with transitions/animations.
+       https://www.smashingmagazine.com/2016/12/gpu-animation-doing-it-right/#:~:text=The%20transform%20and%20opacity%20properties,completely%20offloaded%20to%20the%20GPU).
+       */
+    opacity: 1;
+    transform: scale(1.5);
+    /* inset: -2.7em; */
+
+    /* Hover On */
+    /* When I hover over the button, this transition has higher specificity than the one on l-n::after
+       and so this one takes effect. */
+    transition: 
+        opacity 500ms linear,
+        transform 750ms ease-in-out;
+}
