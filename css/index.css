@@ -425,10 +425,15 @@ no matter how we write it. */
 
 
 .underline-indicators > * {
-    padding: var(--underline-gap, 1em) 0;
+    /* To reset the bg and border of any element that may have one by default (*cough* buttons *cough*). */
+    background: none;
+    border: 0;
     /* If I add the border here with 0 opacity I can then change just the color in the other cases.
        This way if wanted to change the width or style I only have to do it in one place. */
     border-bottom: 0.2rem solid hsl(var(--clr-white)/0);
+    /* For elements that don't change cursor to pointer by default. */
+    cursor: pointer;
+    padding: var(--underline-gap, 1em) 0;
 }
 
 /* Here we need :focus-within instead of just :focus because the li isn't the element actually being focused
@@ -437,26 +442,36 @@ no matter how we write it. */
 .underline-indicators > *:focus-within {
     /* border-bottom: 3px solid hsl(var(--clr-white)/.5); Don't use pixels */
     border-color: hsl(var(--clr-white)/.5);
+    outline: 0;
+}
+
+/* Anchor tags have an ugly outline when focused which is not necessary if we already have the underline-indicator */
+.underline-indicators a:focus {
+    outline: 0;
 }
 
 /* The active selector needs to be below the hover because this way it has precedence over it and the active
    underline doesn't change on hover. */
-.underline-indicators > /* * the universal selector here is redundant */.active {
-    border-color: hsl(var(--clr-white)/1);
-    
+.underline-indicators > /* * the universal selector here is redundant */.active,
+/* Aria stands for Accessible Reach Internet Applications and it's used to make sites more accessible by giving
+   extra context to assistive technologies. With links this is not necessary as we are changing html pages when
+   we click one, but with buttons in the tab list we will remain in the same page an change the visibility on some
+   content. This is no problem for regular users but for screen readers it can be a problem, so the aria-selected: true
+   tells the screen reader which is the active tab (and so what content should be read out loud). */
+.underline-indicators > [aria-selected="true"] {
+    color: hsl(var(--clr-white));
+    border-color: hsl(var(--clr-white));
 }
 
-.tab-buttons {
+.tab-list {
     --underline-gap: 0.8em;
     --gap: 2em;
 }
 
-button {
+/* This declarations are probably fine here with the button selector since we'll probably never use a button
+   without this settings. But Kevin  */
+/* button {
     cursor: pointer;
     background: none;
-    border: none;
-}
-
-button.active {
-    color: hsl(var(--clr-white));
-}
+    border: 0;
+} */
