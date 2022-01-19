@@ -133,14 +133,14 @@
                     </nav>
                 </div>
                 
-                <div class="flex">
+                <div class="flex" style="margin-top: 7rem;">
                     <!-- explore button -->
-                    <div style="margin-top: 4em;">
+                    <div>
                         <a href="#" class="large-button bg-white txt-dark ff-serif fs-600 uppercase" data-text="Explore">Explore</a>
                     </div>
                     
                     <!-- Just so we can scroll past the bottom of the page to see better the changes on the button -->
-                    <div style="margin-bottom: 80vh">
+                    <div class="flow grid" style="--flow-space:4rem; margin-bottom: 80vh">
                         <!-- Tabs -->
                         <div class="underline-indicators tab-list flex fs-300">
                             <button aria-selected="true" class="uppercase txt-light ff-sans-condensed letter-spacing-2">Moon</button>
@@ -149,9 +149,20 @@
                         </div>
                         
                         <!-- Dots -->
-                        
+                        <div class="dot-indicators flex">
+                            <!-- REMEMBER THE SR-ONLY CLASS. It makes the content occupy no space while still being
+                                 visible by the screen reader. -->
+                            <button aria-selected="true"><span class="sr-only">Slide title</span></button>
+                            <button aria-selected="false"><span class="sr-only">Slide title</span></button>
+                            <button aria-selected="false"><span class="sr-only">Slide title</span></button>
+                        </div>
                         
                         <!-- Numbers -->
+                        <div class="numbered-indicators flex ff-serif fs-600 txt-white">
+                            <button aria-selected="true">1</button>
+                            <button aria-selected="false">2</button>
+                            <button aria-selected="false">3</button>
+                        </div>
                     </div>
                 </div>                
             </section> <!-- /interactive-elements-->
@@ -161,4 +172,4 @@
         
         <script src="index.pack.js"></script>
     </body>
-</html> 
+</html>

@@ -154,12 +154,12 @@ button,
 textarea,
 select {
     font: inherit;
+    color: inherit;
 }
 
-/*
-Remove animations for people who've turned them off. It's mostly to increase accessibility of the site.
-(this is a browser/os setting, not an in-site one)
-They are tagged as !important so this settings will prevail no matter what other settings we have.
+/* Remove animations for people who've turned them off (this is a browser/os setting, not an in-site one).
+   It's mostly to increase accessibility of the site.
+   They are tagged as !important so this settings will prevail no matter what other settings we have.
 */
 @media (prefers-reduced-motion: reduce) {
     *,
@@ -197,6 +197,8 @@ They are tagged as !important so this settings will prevail no matter what other
 .flex {
     display: flex;
     gap: var(--gap, 1rem);
+    flex-direction: var(--flex-dir, row);
+    justify-content: space-around;
 }
 
 /* .flow > * + * selects any element that is the adjacent sibling (meaning that it comes directly after) of 
@@ -222,6 +224,7 @@ They are tagged as !important so this settings will prevail no matter what other
 .grid {
     display: grid;
     gap: var(--gap, 1rem);
+    justify-items: center;
 }
 
 .numbered-title {
@@ -475,3 +478,48 @@ no matter how we write it. */
     background: none;
     border: 0;
 } */
+
+.dot-indicators > * {
+    aspect-ratio: 1;
+    width: 1rem;
+    border: 0;
+    border-radius: 50%;
+    background: hsl(var(--clr-white)/.2);
+    cursor: pointer;
+}
+
+.dot-indicators > *:hover,
+.dot-indicators > *:focus {
+    background: hsl(var(--clr-white)/.5);
+    outline: 0;
+}
+
+.dot-indicators > [aria-selected="true"] {
+    background: hsl(var(--clr-white));
+}
+
+.numbered-indicators {
+    --flex-dir: column;
+    --gap: 1em;
+}
+
+.numbered-indicators > * {
+    aspect-ratio: 1;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    cursor: pointer;
+    outline: 0.1rem solid hsl(var(--clr-white)/.25);
+    width: 2.5em;
+}
+
+.numbered-indicators > *:hover,
+.numbered-indicators > *:focus {
+    outline: 0.1rem solid hsl(var(--clr-white));
+}
+
+.numbered-indicators > [aria-selected="true"] {
+    background: hsl(var(--clr-white));
+    color: hsl(var(--clr-dark));
+    outline: 0;
+}
