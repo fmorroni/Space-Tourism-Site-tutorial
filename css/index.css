@@ -402,7 +402,12 @@ no matter how we write it. */
 
 .primary-navigation {
     background-color: hsl(var(--clr-white)/.04);
+    /* If I don't set font-size here then all my em values will be with respect to the body font-size, since
+       that's what the element is inheriting (so the values would stay the same even if I change the li/a font-sizes).
+       I ended up setting it with the class fs-300 in the ul which seems a litter better (same idea tho). */
+    /* font-size: var(--fs-300); */
     --gap: 8rem;
+    --underline-gap: 2em;
     justify-content: center;
     list-style: none;
     margin: 0;
@@ -419,8 +424,8 @@ no matter how we write it. */
 }
 
 
-.primary-navigation > * {
-    padding: 2em 0;
+.underline-indicators > * {
+    padding: var(--underline-gap, 1em) 0;
     /* If I add the border here with 0 opacity I can then change just the color in the other cases.
        This way if wanted to change the width or style I only have to do it in one place. */
     border-bottom: 0.2rem solid hsl(var(--clr-white)/0);
@@ -441,3 +446,17 @@ no matter how we write it. */
     
 }
 
+.tab-buttons {
+    --underline-gap: 0.8em;
+    --gap: 2em;
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+button.active {
+    color: hsl(var(--clr-white));
+}
