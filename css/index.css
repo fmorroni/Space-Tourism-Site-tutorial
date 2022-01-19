@@ -227,6 +227,14 @@ select {
     justify-items: center;
 }
 
+.home-main-button {
+    align-self: end;
+}
+
+.main-content {
+    flex-basis: min-content;
+}
+
 .numbered-title {
     font-family: var(--ff-sans-cond);
     font-size: var(--fs-500);
@@ -343,8 +351,10 @@ no matter how we write it. */
        stack indexes are kinda weird but it doesn't really matter). But this way ::after's background will always remain on top
        of l-b's. As we are using white for both this doesn't matter though. */
     z-index: 1;
-    /* display: gird allows us to use place-items: center. Flex also works, not sure if it changes anything in this case. */
-    display: grid;
+    /* Gird allows us to use place-items: center. Flex also works, not sure if it changes anything in this case.
+       We use inline-grid/flex instead of just grid/flex because by default grid acts like a block and so it grows
+       to fit the available space, which could cause our button to become ginormous. */
+    display: inline-grid;
     place-items: center;
     padding: 0 2em;
     border-radius: 50%;
