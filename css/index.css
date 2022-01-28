@@ -51,9 +51,9 @@
        changes so it's also fine to just add them as regular values. */
 }
 
-/* ================ */
-/* RESET            */
-/* ================ */
+/* -------- */
+/* RESET    */
+/* -------- */
 
 /* https://piccalil.li/blog/a-modern-css-reset/ */
 
@@ -227,12 +227,22 @@ select {
     justify-items: center;
 }
 
-.home-main-button {
-    align-self: end;
+.grid-container {
+    display: grid;
+    column-gap: var(--container-gap, 2rem);
+    /* The 1fr on the left and right "gap-columns" are there to center the content when the screen size is too big
+       for the 2em to do the job. */
+    grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(min-content, 40rem)) minmax(2rem, 1fr);
 }
 
-.main-content {
-    flex-basis: min-content;
+.grid-container > *:first-child {
+    grid-column: 2;
+    outline: 1px solid red;
+}
+
+.grid-container > *:last-child {
+    grid-column: 3;
+    outline: 1px solid yellow;
 }
 
 .numbered-title {
