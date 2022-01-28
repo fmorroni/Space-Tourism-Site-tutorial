@@ -135,6 +135,17 @@ body {
     background-color: hsl(var(--clr-dark));
     /* c+tab+esc (the ones that have a value autocompleted by emmet need an esc for the following autocomplete) and hvcw+tab */
     color: hsl(var(--clr-white));
+
+    /* This will make it so that all elements inside the body stretch to fill in all the available space. It only works
+       thanks to the min-height: 100vh, otherwise the body it self would shrink to fit the content and so all available
+       space would by default by occupied. */
+    display: grid;
+    /* By default with the grid display, all rows would receive the same extra spacing (lets say the the header and main content
+       only use up 50% of the viewport height, with the header height being 10% and the main content 40%. Then the
+       grid rows would end up having a height of 10% + 50%/2 = 35% and 40% + 50%/2 = 65%). But we don't want the header row to
+       have that extra spacing, so we define the grid-template-rows giving the first row a height of min-content (10% because the
+       header goes here) and the the second one a height of 1ft, meaning it should occupy 1 fraction of all the available space. */
+    grid-template-rows: min-content 1fr;
 }
 
 /* make images easier to work with. */
