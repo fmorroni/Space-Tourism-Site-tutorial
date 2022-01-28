@@ -3,6 +3,12 @@
 /* ------------------- */
 
 :root {
+    /* Note: if we wanted to change the root font-size, doing font-size: 20px; would work but now this value
+       would override the browser settings, which doesn't happen if we leave the default value (which usually
+       is 16px). However, we can change it and keep the accessibility if we use a percentage value, f.eg:
+       font-size: 125%; would enlarge the root element font-size to 20px (assuming default 16px). But it
+       would also get bigger if the f.eg the user has a browser setting to enlarge every font. */
+
     /* ------ */
     /* Colors */
     /* ------ */
@@ -140,7 +146,7 @@ body {
        thanks to the min-height: 100vh, otherwise the body it self would shrink to fit the content and so all available
        space would by default by occupied. */
     display: grid;
-    /* By default with the grid display, all rows would receive the same extra spacing (lets say the the header and main content
+    /* By default with the grid display, all rows would receive the same extra spacing (lets say the the header and main content 
        only use up 50% of the viewport height, with the header height being 10% and the main content 40%. Then the
        grid rows would end up having a height of 10% + 50%/2 = 35% and 40% + 50%/2 = 65%). But we don't want the header row to
        have that extra spacing, so we define the grid-template-rows giving the first row a height of min-content (10% because the
@@ -240,20 +246,28 @@ select {
 
 .grid-container {
     display: grid;
-    column-gap: var(--container-gap, 2rem);
-    /* The 1fr on the left and right "gap-columns" are there to center the content when the screen size is too big
-       for the 2em to do the job. */
-    grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(min-content, 40rem)) minmax(2rem, 1fr);
 }
 
-.grid-container > *:first-child {
-    grid-column: 2;
-    outline: 1px solid red;
-}
-
-.grid-container > *:last-child {
-    grid-column: 3;
-    outline: 1px solid yellow;
+/* We use em instead of rem because there is a bug the makes rem work different in different browsers. See:
+   https://medium.com/@barrypeng6/why-should-not-use-rem-unit-in-media-query-5645d0163ce5#:~:text=Unit%20rem%20in%20media%20queries,queries%20before%20the%20bug's%20fixed.
+   And this works the same way rems would if they worked correctly because the parent for media queries is always the root element (I think). */
+@media (min-width: 48em) {
+    .grid-container {
+        column-gap: var(--container-gap, 2rem);
+        /* The 1fr on the left and right "gap-columns" are there to center the content when the screen size is too big
+           for the 2em to do the job. */
+        grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(min-content, 40rem)) minmax(2rem, 1fr);
+    }   
+    
+    .grid-container > *:first-child {
+        grid-column: 2;
+        outline: 1px solid red;
+    }
+    
+    .grid-container > *:last-child {
+        grid-column: 3;
+        outline: 1px solid yellow;
+    }
 }
 
 .numbered-title {
@@ -358,7 +372,7 @@ no matter how we write it. */
 .large-button {
     /* We need position: relative here because the ::after pseudo-element having absolute positioning
        is positioned relative to its closest ancestor with a position other than static (the default
-       positioning value), it there is any; otherwise it's placed relative to the root element. So if
+       positioning value), if there is any; otherwise it's placed relative to the root element. So if
        we omitted the relative positioning here, the size of the ::after element (being 100% of the
        parent or inset: 0) would be that of the root element (the whole page). */
     position: relative;
