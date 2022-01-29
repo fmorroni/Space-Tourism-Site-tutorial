@@ -38,7 +38,10 @@
        max(5rem, min(10rem, 15rem)) = max(5rem, 10rem) = 10rem. Of course, using fixed values will always yield the same
        result, so clamp is only useful if at least one value (generally VAL) is a non-fixed value. This is achieved with
        units like vw. And we only use it for the largest font size because it isn't very noticeable for smaller sizes. */
-    --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
+    /* I actually like it more with the fixed sizes. It's not like people can change their device width in real time (except
+    of course in pc browsers, but even then it looks better with fixed sizing). */
+    /* --fs-900: clamp(5rem, 25vw + 1rem, 9.375rem); */
+    --fs-900: 5rem;
     --fs-800: 3.5rem;
     --fs-700: 1.5rem;
     --fs-600: 1rem;
@@ -76,11 +79,11 @@
 }
 
 /* Bigger than 25em aka tablet */
-@media (min-width: 25em) {
+@media (min-width: 31em) {
     /* We only modify the values that change here, the rest will be inherited from the mobile layout. */
     :root {
-        /* This one gets replaced for the clamp value in the original. */
-        /* --fs-900: 9.375rem; */
+        /* If we use the clamp value this --fs-900 should get commented. */
+        --fs-900: 9.375rem;
         --fs-800: 5rem;
         --fs-700: 2.5rem;
         --fs-600: 1.5rem;
@@ -89,7 +92,7 @@
 }
 
 /* Bigger than 48em aka desktop. Overrides the tablet query (where properties coincide). */
-@media (min-width: 48em) {
+@media (min-width: 57em) {
     /* Here we also only modify the values that change with respect to the tablet layout, so the --fs-900 (if
        we were using it) will get inherited from the tablet layout. */
     :root {
@@ -254,6 +257,10 @@ select {
                          it's not necessary if we want the same width for all pages. */
 }
 
+.d-block {
+    display: block;
+}
+
 .flex {
     display: flex;
     gap: var(--gap, 1rem);
@@ -288,18 +295,36 @@ select {
 }
 
 .grid-container {
+    border: 1px solid limegreen;
+
     display: grid;
+    margin-inline: 1rem;
+    text-align: center;
+    place-items: center;
+}
+
+.grid-container > * {
+    max-width: 50ch;
+}
+
+.grid-container > *:first-child {
+    outline: 1px solid red;
+}
+
+.grid-container > *:last-child {
+    outline: 1px solid yellow;
 }
 
 /* We use em instead of rem because there is a bug the makes rem work different in different browsers. See:
    https://medium.com/@barrypeng6/why-should-not-use-rem-unit-in-media-query-5645d0163ce5#:~:text=Unit%20rem%20in%20media%20queries,queries%20before%20the%20bug's%20fixed.
    And this works the same way rems would if they worked correctly because the parent for media queries is always the root element (I think). */
-@media (min-width: 48em) {
+@media (min-width: 56em) {
     .grid-container {
         column-gap: var(--container-gap, 2rem);
         /* The 1fr on the left and right "gap-columns" are there to center the content when the screen size is too big
            for the 2em to do the job. */
-        grid-template-columns: minmax(2rem, 1fr) repeat(2, minmax(min-content, 40rem)) minmax(2rem, 1fr);
+        grid-template-columns: minmax(1rem, 1fr) repeat(2, minmax(min-content, 40rem)) minmax(1rem, 1fr);
+        text-align: left;
     }   
     
     .grid-container > *:first-child {
@@ -308,8 +333,14 @@ select {
     }
     
     .grid-container > *:last-child {
+        justify-self: end;
         grid-column: 3;
         outline: 1px solid yellow;
+    }
+
+    .grid-container--home {
+        padding-bottom: max(6rem, 20vh);
+        align-items: end;
     }
 }
 
@@ -439,6 +470,14 @@ no matter how we write it. */
     aspect-ratio: 1;
     /* Removes the underline. */
     text-decoration: none;
+    /* Added manually because it's the only element that has one size for both desktop and tablet and another size for mobile */
+    font-size: 1.25rem;
+}
+
+@media (min-width: 25em) {
+    .large-button {
+        font-size: 2rem;
+    }
 }
 
 /* ::after is a pseudo-element that gets appended as a child to the element that's being selected. */
