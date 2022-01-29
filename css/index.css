@@ -31,15 +31,19 @@
        if the user has set up the browser to show a bigger font to see better, pixel sizes can potentially
        override those settings while rems will take that into account).
        Here our normal font-size is 18px, as the default size for the html element is 16px, the value in rems
-       will be (18/16)rem = 1.125rem. */
-    
-    /* it's better to use rems. */
-    --fs-900: 9.375rem;
-    --fs-800: 6.25rem;
-    --fs-700: 3.5rem;
-    --fs-600: 2rem;
+       will be (18/16)rem = 1.125rem. */       
+    /* As we are working on a mobile-first approach, this are the font sizes for the mobile layout. */
+
+    /* clamp(MIN, VAL, MAX) is resolved as max(MIN, min(VAL, MAX)). So f.eg clamp(5rem, 10rem, 15rem) gets evaluated to
+       max(5rem, min(10rem, 15rem)) = max(5rem, 10rem) = 10rem. Of course, using fixed values will always yield the same
+       result, so clamp is only useful if at least one value (generally VAL) is a non-fixed value. This is achieved with
+       units like vw. And we only use it for the largest font size because it isn't very noticeable for smaller sizes. */
+    --fs-900: clamp(5rem, 8vw + 1rem, 9.375rem);
+    --fs-800: 3.5rem;
+    --fs-700: 1.5rem;
+    --fs-600: 1rem;
     --fs-500: 1.75rem;
-    --fs-400: 1.125rem;
+    --fs-400: 0.9375rem;
     --fs-300: 1rem;
     --fs-200: 0.875rem;
     
@@ -55,6 +59,45 @@
 
     /* Note: character spacings could also be a good candidate for setting as custom properties, but that's not something that usually
        changes so it's also fine to just add them as regular values. */
+    
+
+    /* DOESN'T WORK!!! For some reason media queries don't work with variables, so this is basically useless... */
+    /* ------------ */
+    /* Device sizes */
+    /* ------------ */
+    
+    /* Could do it this way to make it even more modular, but not really necessary. */
+    /* --fs-root: calc(new-val*100%/16)
+    font-size: var(--fs-root); */
+
+    /* tablet-width (in px)/--fs-root * 1em */
+    /* --tablet-width: calc(768/16 * 1em); 
+    --mobile-width: calc(375/16 * 1em);  */
+}
+
+/* Bigger than 25em aka tablet */
+@media (min-width: 25em) {
+    /* We only modify the values that change here, the rest will be inherited from the mobile layout. */
+    :root {
+        /* This one gets replaced for the clamp value in the original. */
+        /* --fs-900: 9.375rem; */
+        --fs-800: 5rem;
+        --fs-700: 2.5rem;
+        --fs-600: 1.5rem;
+        --fs-400: 1rem;
+    }
+}
+
+/* Bigger than 48em aka desktop. Overrides the tablet query (where properties coincide). */
+@media (min-width: 48em) {
+    /* Here we also only modify the values that change with respect to the tablet layout, so the --fs-900 (if
+       we were using it) will get inherited from the tablet layout. */
+    :root {
+        --fs-800: 6.25rem;
+        --fs-700: 3.5rem;
+        --fs-600: 2rem;
+        --fs-400: 1.125rem;
+    }
 }
 
 /* -------- */
