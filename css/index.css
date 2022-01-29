@@ -92,7 +92,7 @@
 }
 
 /* Bigger than 48em aka desktop. Overrides the tablet query (where properties coincide). */
-@media (min-width: 57em) {
+@media (min-width: 66em) {
     /* Here we also only modify the values that change with respect to the tablet layout, so the --fs-900 (if
        we were using it) will get inherited from the tablet layout. */
     :root {
@@ -295,8 +295,6 @@ select {
 }
 
 .grid-container {
-    border: 1px solid limegreen;
-
     display: grid;
     margin-inline: 1rem;
     text-align: center;
@@ -307,35 +305,27 @@ select {
     max-width: 50ch;
 }
 
-.grid-container > *:first-child {
-    outline: 1px solid red;
-}
-
-.grid-container > *:last-child {
-    outline: 1px solid yellow;
-}
-
 /* We use em instead of rem because there is a bug the makes rem work different in different browsers. See:
    https://medium.com/@barrypeng6/why-should-not-use-rem-unit-in-media-query-5645d0163ce5#:~:text=Unit%20rem%20in%20media%20queries,queries%20before%20the%20bug's%20fixed.
    And this works the same way rems would if they worked correctly because the parent for media queries is always the root element (I think). */
-@media (min-width: 56em) {
+@media (min-width: 66em) {
     .grid-container {
         column-gap: var(--container-gap, 2rem);
+        --dummy-columns: 6vw, 1fr;
         /* The 1fr on the left and right "gap-columns" are there to center the content when the screen size is too big
            for the 2em to do the job. */
-        grid-template-columns: minmax(1rem, 1fr) repeat(2, minmax(min-content, 40rem)) minmax(1rem, 1fr);
+        grid-template-columns: minmax(var(--dummy-columns)) repeat(2, minmax(min-content, 40rem)) minmax(var(--dummy-columns));
         text-align: left;
     }   
     
     .grid-container > *:first-child {
+        justify-self: start;
         grid-column: 2;
-        outline: 1px solid red;
     }
     
     .grid-container > *:last-child {
         justify-self: end;
         grid-column: 3;
-        outline: 1px solid yellow;
     }
 
     .grid-container--home {
@@ -649,4 +639,28 @@ no matter how we write it. */
     background: hsl(var(--clr-white));
     color: hsl(var(--clr-dark));
     outline: 0;
+}
+
+/* ----------- */
+/* Backgrounds */
+/* ----------- */
+
+.home {
+    background-image: url(../assets/home/background-home-mobile.jpg);
+    background-position: bottom;
+    background-size: cover;
+}
+
+@media (min-width: 31em) {
+    .home {
+        background-image: url(../assets/home/background-home-tablet.jpg);
+        /* Here we change the position because the Earth made the text hard to read on tablet. */
+        background-position: center;
+    }
+}
+
+@media (min-width: 66em) {
+    .home {
+        background-image: url(../assets/home/background-home-desktop.jpg);
+    }
 }
